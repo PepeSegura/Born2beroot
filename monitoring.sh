@@ -14,7 +14,7 @@ lvm_on=$(if [ $(lsblk | grep "lvm" | wc -l) -eq 0 ]; then echo no; else echo yes
 number_tcp=$(netstat -t | grep 'tcp' | wc -l)
 user_count=$(users | wc -w)
 ipv4_adress=$(hostname -I)
-mac_adress=$(ifconfig | grep 'ether' | awk '{print $2}')
+mac_adress=$(ip link show | grep 'ether' | awk '{print $2}')
 sudo_commands_count=$(cat /var/log/sudo/sudo.log | grep 'COMMAND' | wc -l)
 
 wall "	#Architecture:	$architecture
@@ -25,7 +25,7 @@ wall "	#Architecture:	$architecture
 	#CPU load:	$percent_cores%
 	#Last boot:	$last_boot
 	#LVM use:	$lvm_on
-	#Conexions TCP:	$number_tcp
+	#Conexions TCP:	$number_tcp ESTABLISHED
 	#User log:	$user_count
 	#Network:	IP $ipv4_adress	($mac_adress)
 	#Sudo		$sudo_commands_count
