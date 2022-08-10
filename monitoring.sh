@@ -11,11 +11,11 @@ percent_memory=$(df -BM | grep '/dev/' | awk '{total += $2} {used += $3} END {pr
 percent_cores=$(top -bn1 | grep '%Cpu' | awk '{printf("%.2f\n",  $2 + $4)}')
 last_boot=$(uptime -s)
 lvm_on=$(if [ $(lsblk | grep "lvm" | wc -l) -eq 0 ]; then echo no; else echo yes; fi)
-number_tcp=$()
+number_tcp=$(netstat -t | grep 'tcp' | wc -l)
 user_count=$(users | wc -w)
-ipv4_adress=$()
-mac_adress=$()
-sudo_commands_count=$()
+ipv4_adress=$(hostname -I)
+mac_adress=$(ifconfig | grep 'ether' | awk '{print $2}')
+sudo_commands_count=$(cat /var/log/sudo/sudo.log | grep 'COMMAND' | wc -l)
 
 wall "	#Architecture:	$architecture
 	#CPU phisical:	$cores
